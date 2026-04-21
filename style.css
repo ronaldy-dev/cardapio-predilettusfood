@@ -1,0 +1,197 @@
+/* 1. CONFIGURAÇÕES GERAIS E VARIÁVEIS */
+:root {
+    --fundo: #0a0a0a;           /* Preto profundo (estilo Instagram) */
+    --card: #161616;            /* Cinza bem escuro para os itens */
+    --primaria: #ff007f;        /* O Rosa Choque do logo Predilettu's */
+    --secundaria: #ffc107;      /* Amarelo para preços (estimula a fome) */
+    --sucesso: #25d366;         /* Verde WhatsApp */
+    --texto-principal: #ffffff;
+    --texto-apoio: #b3b3b3;
+    --borda: #282828;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+body {
+    background-color: var(--fundo);
+    color: var(--texto-principal);
+    line-height: 1.6;
+    padding-bottom: 100px; /* Espaço para o carrinho fixo não tampar o conteúdo */
+}
+
+/* 2. CABEÇALHO (BANNER) */
+header {
+    background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('img/banner-fundo.jpg');
+    background-size: cover;
+    background-position: center;
+    padding: 40px 20px;
+    text-align: center;
+    border-bottom: 3px solid var(--primaria);
+}
+
+.logo {
+    width: 90px;
+    height: 90px;
+    border-radius: 50%;
+    border: 3px solid var(--primaria);
+    box-shadow: 0 0 20px rgba(255, 0, 127, 0.4);
+    margin-bottom: 10px;
+}
+
+header h1 {
+    font-size: 1.8rem;
+    letter-spacing: -1px;
+}
+
+/* 3. NAVEGAÇÃO DE CATEGORIAS (Scroll Horizontal) */
+.categorias {
+    display: flex;
+    overflow-x: auto;
+    padding: 20px 15px;
+    gap: 12px;
+    position: sticky;
+    top: 0;
+    background: var(--fundo);
+    z-index: 10;
+}
+
+/* Esconde a barra de scroll para ficar mais limpo */
+.categorias::-webkit-scrollbar { display: none; }
+
+.categorias button {
+    background: var(--card);
+    color: var(--texto-apoio);
+    border: 1px solid var(--borda);
+    padding: 10px 20px;
+    border-radius: 50px;
+    font-weight: 600;
+    white-space: nowrap;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.categorias button.active {
+    background: var(--primaria);
+    color: white;
+    border-color: var(--primaria);
+}
+
+/* 4. CARDS DE PRODUTOS */
+main {
+    padding: 0 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.produto-card {
+    background: var(--card);
+    border-radius: 15px;
+    display: flex; /* Layout horizontal para mobile fica excelente */
+    overflow: hidden;
+    border: 1px solid var(--borda);
+    height: 140px;
+}
+
+.produto-img {
+    width: 130px;
+    height: 100%;
+    object-fit: cover; /* Faz a foto preencher o espaço sem deformar */
+}
+
+.produto-info {
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    flex: 1;
+}
+
+.produto-nome {
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin-bottom: 4px;
+}
+
+.produto-desc {
+    font-size: 0.85rem;
+    color: var(--texto-apoio);
+    display: -webkit-box;
+    -webkit-line-clamp: 2; /* Corta o texto em 2 linhas se for muito longo */
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.produto-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 8px;
+}
+
+.produto-preco {
+    color: var(--secundaria);
+    font-weight: 800;
+    font-size: 1.2rem;
+}
+
+.btn-add {
+    background: var(--primaria);
+    color: white;
+    border: none;
+    width: 35px;
+    height: 35px;
+    border-radius: 8px;
+    font-size: 1.2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+/* 5. CARRINHO FLUTUANTE (FIXO NA BASE) */
+#carrinho-flutuante {
+    position: fixed;
+    bottom: 20px;
+    left: 5%;
+    right: 5%;
+    width: 90%;
+    background: var(--sucesso);
+    padding: 15px 25px;
+    border-radius: 12px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    z-index: 100;
+    animation: subir 0.4s ease-out;
+}
+
+@keyframes subir {
+    from { transform: translateY(100px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+#btn-finalizar {
+    background: none;
+    border: none;
+    color: white;
+    font-weight: 800;
+    font-size: 1.1rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.badge-itens {
+    background: rgba(0,0,0,0.2);
+    padding: 2px 8px;
+    border-radius: 5px;
+    margin-right: 5px;
+}
