@@ -32,7 +32,7 @@
                 </div>
                 <div class="produto-footer">
                     <span class="produto-preco">R$ 35,00</span>
-                    <button class="btn-add" onclick="adicionarAoCarrinho('X-Predilettu', 35.00)">+</button>
+                    <button class="btn-add" onclick="alterarCarrinho('X-Predilettu', 35.00, 'adicionar')">+</button>
                 </div>
             </div>
         </div>
@@ -46,7 +46,7 @@
                 </div>
                 <div class="produto-footer">
                     <span class="produto-preco">R$ 55,00</span>
-                    <button class="btn-add" onclick="adicionarAoCarrinho('Pizza Calabresa', 55.00)">+</button>
+                    <button class="btn-add" onclick="alterarCarrinho('Pizza Calabresa', 55.00, 'adicionar')">+</button>
                 </div>
             </div>
         </div>
@@ -60,20 +60,36 @@
                 </div>
                 <div class="produto-footer">
                     <span class="produto-preco">R$ 28,00</span>
-                    <button class="btn-add" onclick="adicionarAoCarrinho('Taça de Açaí', 28.00)">+</button>
+                    <button class="btn-add" onclick="alterarCarrinho('Taça de Açaí', 28.00, 'adicionar')">+</button>
                 </div>
             </div>
         </div>
     </main>
 
-    <div id="carrinho-flutuante" style="display: none;">
+    <div id="carrinho-flutuante" style="display: none;" onclick="abrirModal()">
         <div id="resumo-carrinho">
             <span class="badge-itens" id="itens-carrinho">0</span>
             <span id="total-carrinho">R$ 0,00</span>
         </div>
-        <button id="btn-finalizar" onclick="enviarPedidoWhatsApp()">
-            Ver Pedido <i class="fab fa-whatsapp"></i>
+        <button id="btn-finalizar">
+            Ver Pedido <i class="fa fa-shopping-basket"></i>
         </button>
+    </div>
+
+    <div id="modal-carrinho" class="modal">
+        <div class="modal-content">
+            <h2>Seu Pedido</h2>
+            <div id="lista-resumo">
+                </div>
+            <div class="total-container">
+                <strong>Total: </strong>
+                <span id="total-modal">R$ 0,00</span>
+            </div>
+            <div class="modal-actions">
+                <button class="btn-close" onclick="fecharModal()">Adicionar mais</button>
+                <button class="btn-finish" onclick="enviarPedidoWhatsApp()">Finalizar no WhatsApp</button>
+            </div>
+        </div>
     </div>
 
     <script src="script.js"></script>
