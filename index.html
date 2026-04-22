@@ -4,94 +4,122 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Predilettu's Food - Catálogo Digital</title>
+
+    <!-- Ícones -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+    <!-- CSS -->
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
+    <!-- HEADER -->
     <header>
-        <img src="img/logo-chefe.jpg" alt="Logo Predilettu's" class="logo">
+        <img src="img/logo-chefe.jpg" alt="Logo da Predilettu's Food" class="logo">
         <h1>Predilettu's Food</h1>
-        <p class="zap-header"><i class="fab fa-whatsapp"></i> (68) 99205-5322</p>
+        <p class="zap-header">
+            <i class="fab fa-whatsapp"></i> (68) 99205-5322
+        </p>
     </header>
 
+    <!-- INFORMAÇÕES -->
+    <section class="info-container">
+        <div class="info-grid">
+
+            <div class="info-item">
+                <div class="info-circle"><i class="fas fa-motorcycle"></i></div>
+                <div class="info-text">
+                    <strong>Entrega</strong>
+                    <span>Taxa fixa R$ 4,00</span>
+                </div>
+            </div>
+
+            <div class="info-item">
+                <div class="info-circle"><i class="fas fa-credit-card"></i></div>
+                <div class="info-text">
+                    <strong>Pagamento</strong>
+                    <span>Pix, Cartões e dinheiro</span>
+                </div>
+            </div>
+
+            <div class="info-item">
+                <div class="info-circle"><i class="fas fa-clock"></i></div>
+                <div class="info-text">
+                    <strong>Horário</strong>
+                    <span>18h às 22h</span>
+                </div>
+            </div>
+
+            <div class="info-item">
+                <div class="info-circle"><i class="fas fa-map-marker-alt"></i></div>
+                <div class="info-text">
+                    <strong>Localização</strong>
+                    <span>Rodrigues Alves</span>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- CATEGORIAS -->
     <nav class="categorias">
-        <button class="active" onclick="filtrar('todos')">Tudo</button>
-        <button onclick="filtrar('hamburguer')">Hambúrgueres</button>
-        <button onclick="filtrar('pizza')">Pizzas</button>
-        <button onclick="filtrar('sorvete')">Sorvetes</button>
+        <button class="active" data-categoria="todos">Tudo</button>
+        <button data-categoria="hamburguer">Hambúrgueres</button>
+        <button data-categoria="pizza">Pizzas</button>
+        <button data-categoria="sorvete">Açaí/Sorvetes</button>
+        <button data-categoria="bebidas">Bebidas</button>
     </nav>
 
+    <!-- PRODUTOS -->
     <main id="lista-produtos">
-        <div class="produto-card hamburguer">
-            <img src="img/burguer-1.png" class="produto-img" alt="Hambúrguer">
-            <div class="produto-info">
-                <div>
-                    <h3 class="produto-nome">X-Predilettu's</h3>
-                    <p class="produto-desc">Pão brioche, blend 160g, cheddar, bacon e maionese artesanal.</p>
-                </div>
-                <div class="produto-footer">
-                    <span class="produto-preco">R$ 35,00</span>
-                    <button class="btn-add" onclick="alterarCarrinho('X-Predilettu', 35.00, 'adicionar')">+</button>
-                </div>
-            </div>
-        </div>
-
-        <div class="produto-card pizza">
-            <img src="img/pizza-calabresa.png" class="produto-img" alt="Pizza">
-            <div class="produto-info">
-                <div>
-                    <h3 class="produto-nome">Calabresa Premium</h3>
-                    <p class="produto-desc">Molho pomodoro, muçarela, calabresa e cebola roxa.</p>
-                </div>
-                <div class="produto-footer">
-                    <span class="produto-preco">R$ 55,00</span>
-                    <button class="btn-add" onclick="alterarCarrinho('Pizza Calabresa', 55.00, 'adicionar')">+</button>
-                </div>
-            </div>
-        </div>
-
-        <div class="produto-card sorvete">
-            <img src="img/taça-açai.jpg" class="produto-img" alt="Sorvete">
-            <div class="produto-info">
-                <div>
-                    <h3 class="produto-nome">Taça de Açaí Especial</h3>
-                    <p class="produto-desc">Açaí 500ml, leite condensado, leite em pó e frutas.</p>
-                </div>
-                <div class="produto-footer">
-                    <span class="produto-preco">R$ 28,00</span>
-                    <button class="btn-add" onclick="alterarCarrinho('Taça de Açaí', 28.00, 'adicionar')">+</button>
-                </div>
-            </div>
-        </div>
+        <!-- Renderizado via JS -->
     </main>
 
-    <div id="carrinho-flutuante" style="display: none;" onclick="abrirModal()">
+    <!-- CARRINHO FLUTUANTE -->
+    <div id="carrinho-flutuante" style="display: none;">
         <div id="resumo-carrinho">
             <span class="badge-itens" id="itens-carrinho">0</span>
             <span id="total-carrinho">R$ 0,00</span>
         </div>
+
         <button id="btn-finalizar">
             Ver Pedido <i class="fa fa-shopping-basket"></i>
         </button>
     </div>
 
+    <!-- MODAL -->
     <div id="modal-carrinho" class="modal">
         <div class="modal-content">
-            <h2>Seu Pedido</h2>
-            <div id="lista-resumo">
-                </div>
+
+            <h2>Seus Pedidos</h2>
+
+            <!-- LISTA DE ITENS (CORRIGIDO ID DUPLICADO) -->
+            <div id="lista-resumo"></div>
+
+            <!-- AVISO -->
+            <div class="aviso-entrega">
+                <p>
+                    <i class="fas fa-info-circle"></i> 
+                    <strong>Aviso:</strong> Se o pedido for para entrega, será adicionada uma taxa de <strong>R$ 4,00</strong>.
+                </p>
+            </div>
+
+            <!-- TOTAL -->
             <div class="total-container">
-                <strong>Total: </strong>
+                <strong>Total:</strong>
                 <span id="total-modal">R$ 0,00</span>
             </div>
+
+            <!-- AÇÕES -->
             <div class="modal-actions">
-                <button class="btn-close" onclick="fecharModal()">Adicionar mais</button>
-                <button class="btn-finish" onclick="enviarPedidoWhatsApp()">Finalizar no WhatsApp</button>
+                <button class="btn-close" id="btn-continuar">Adicionar mais</button>
+                <button class="btn-finish" id="btn-whatsapp">Finalizar no WhatsApp</button>
             </div>
+
         </div>
     </div>
 
+    <!-- JS -->
     <script src="script.js"></script>
 </body>
 </html>

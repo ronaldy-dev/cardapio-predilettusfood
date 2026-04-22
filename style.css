@@ -1,15 +1,21 @@
-/* 1. CONFIGURAÇÕES GERAIS E VARIÁVEIS */
+/* =========================
+   1. VARIÁVEIS (TEMA)
+========================= */
 :root {
-    --fundo: #0a0a0a;           /* Preto profundo (estilo Instagram) */
-    --card: #161616;            /* Cinza bem escuro para os itens */
-    --primaria: #ff007f;        /* O Rosa Choque do logo Predilettu's */
-    --secundaria: #ffc107;      /* Amarelo para preços (estimula a fome) */
-    --sucesso: #25d366;         /* Verde WhatsApp */
+    --fundo: #0a0a0a;
+    --card: #161616;
+    --primaria: #ff007f;
+    --secundaria: #ffc107;
+    --sucesso: #25d366;
     --texto-principal: #ffffff;
     --texto-apoio: #b3b3b3;
     --borda: #282828;
+    --card-secundario: #1a1a1a;
 }
 
+/* =========================
+   2. RESET
+========================= */
 * {
     margin: 0;
     padding: 0;
@@ -21,17 +27,18 @@ body {
     background-color: var(--fundo);
     color: var(--texto-principal);
     line-height: 1.6;
-    padding-bottom: 100px; /* Espaço para o carrinho fixo não tampar o conteúdo */
+    padding-bottom: 100px;
 }
 
-/* 2. CABEÇALHO (BANNER) */
+/* =========================
+   3. HEADER
+========================= */
 header {
-    background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('img/banner-fundo.jpg');
+    background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('img/banner-1.jpg');
     background-size: cover;
     background-position: center;
     padding: 40px 20px;
     text-align: center;
-    border-bottom: 3px solid var(--primaria);
 }
 
 .logo {
@@ -48,7 +55,60 @@ header h1 {
     letter-spacing: -1px;
 }
 
-/* 3. NAVEGAÇÃO DE CATEGORIAS (Scroll Horizontal) */
+/* =========================
+   4. INFORMAÇÕES
+========================= */
+.info-container {
+    padding: 0 15px;
+    margin: 10px 0 20px;
+}
+
+.info-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+    background: var(--card-secundario);
+    padding: 20px;
+    border-radius: 15px;
+    border: 1px solid rgba(241, 6, 123, 0.994);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+
+.info-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.info-circle {
+    background: #ffffff;
+    color: var(--primaria);
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.info-text {
+    display: flex;
+    flex-direction: column;
+}
+
+.info-text strong {
+    color: #ffffff;
+    font-size: 0.85rem;
+}
+
+.info-text span {
+    color: var(--texto-apoio);
+    font-size: 0.75rem;
+}
+
+/* =========================
+   5. CATEGORIAS
+========================= */
 .categorias {
     display: flex;
     overflow-x: auto;
@@ -60,8 +120,9 @@ header h1 {
     z-index: 10;
 }
 
-/* Esconde a barra de scroll para ficar mais limpo */
-.categorias::-webkit-scrollbar { display: none; }
+.categorias::-webkit-scrollbar {
+    display: none;
+}
 
 .categorias button {
     background: var(--card);
@@ -72,16 +133,23 @@ header h1 {
     font-weight: 600;
     white-space: nowrap;
     cursor: pointer;
-    transition: 0.3s;
+    transition: all 0.3s ease;
+}
+
+.categorias button:active {
+    transform: scale(0.9);
 }
 
 .categorias button.active {
     background: var(--primaria);
-    color: white;
+    color: #ffffff;
     border-color: var(--primaria);
+    box-shadow: 0 0 15px rgba(255, 0, 127, 0.5);
 }
 
-/* 4. CARDS DE PRODUTOS */
+/* =========================
+   6. PRODUTOS
+========================= */
 main {
     padding: 0 15px;
     display: flex;
@@ -92,16 +160,25 @@ main {
 .produto-card {
     background: var(--card);
     border-radius: 15px;
-    display: flex; /* Layout horizontal para mobile fica excelente */
+    display: flex;
     overflow: hidden;
     border: 1px solid var(--borda);
     height: 140px;
+
+    animation: subirEntrada 0.5s ease-out forwards;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.produto-card:hover,
+.produto-card:active {
+    transform: scale(1.02);
+    box-shadow: 0 5px 15px rgba(255, 0, 127, 0.2);
 }
 
 .produto-img {
     width: 130px;
     height: 100%;
-    object-fit: cover; /* Faz a foto preencher o espaço sem deformar */
+    object-fit: cover;
 }
 
 .produto-info {
@@ -115,14 +192,13 @@ main {
 .produto-nome {
     font-size: 1.1rem;
     font-weight: 700;
-    margin-bottom: 4px;
 }
 
 .produto-desc {
     font-size: 0.85rem;
     color: var(--texto-apoio);
     display: -webkit-box;
-    -webkit-line-clamp: 2; /* Corta o texto em 2 linhas se for muito longo */
+    -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
     overflow: hidden;
 }
@@ -131,7 +207,6 @@ main {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-top: 8px;
 }
 
 .produto-preco {
@@ -142,7 +217,7 @@ main {
 
 .btn-add {
     background: var(--primaria);
-    color: white;
+    color: #ffffff;
     border: none;
     width: 35px;
     height: 35px;
@@ -152,16 +227,23 @@ main {
     align-items: center;
     justify-content: center;
     cursor: pointer;
+    transition: 0.2s;
 }
 
-/* 5. CARRINHO FLUTUANTE (FIXO NA BASE) */
+.btn-add:hover {
+    filter: brightness(1.1);
+}
+
+/* =========================
+   7. CARRINHO
+========================= */
 #carrinho-flutuante {
     position: fixed;
     bottom: 20px;
     left: 5%;
     right: 5%;
     width: 90%;
-    background: var(--sucesso);
+    background: var(--primaria);
     padding: 15px 25px;
     border-radius: 12px;
     display: flex;
@@ -170,79 +252,157 @@ main {
     box-shadow: 0 10px 30px rgba(0,0,0,0.5);
     z-index: 100;
     animation: subir 0.4s ease-out;
-}
-
-/* Botão Flutuante Rosa */
-.cart-button {
-    position: fixed;
-    bottom: 20px;
-    left: 50%;
-    transform: translateX(-50%);
-    background-color: #e91e63; /* Rosa Predilettu's */
-    color: white;
-    padding: 15px 30px;
-    border-radius: 50px;
-    font-weight: bold;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.4);
-    z-index: 999;
     cursor: pointer;
-    width: 90%;
-    max-width: 400px;
-    display: flex;
-    justify-content: center;
-    gap: 10px;
 }
 
-/* Fundo da Janela Modal */
+#btn-finalizar {
+    background: none;
+    border: none;
+    color: #ffffff;
+    font-weight: 800;
+    font-size: 1.1rem;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+}
+
+#btn-finalizar i {
+    color: var(--secundaria);
+}
+
+/* =========================
+   8. MODAL
+========================= */
 .modal {
-    display: none; /* Escondido por padrão */
+    display: none;
     position: fixed;
-    top: 0; left: 0; width: 100%; height: 100%;
+    inset: 0;
     background: rgba(0,0,0,0.85);
     z-index: 1000;
     align-items: center;
     justify-content: center;
 }
 
-/* Caixa da Janela Modal */
 .modal-content {
-    background: #1a1a1a;
+    background: var(--card-secundario);
     width: 90%;
     max-width: 450px;
     padding: 20px;
     border-radius: 15px;
-    color: white;
     max-height: 80vh;
     overflow-y: auto;
+    border: 1px solid var(--borda);
 }
 
-.cart-item {
+.modal-actions {
+    display: flex;
+    gap: 12px;
+    margin-top: 20px;
+    padding-top: 15px;
+    border-top: 1px solid var(--borda);
+}
+
+.btn-finish {
+    flex: 2;
+    background-color: var(--sucesso);
+    color: #ffffff;
+    border: none;
+    padding: 14px 10px;
+    border-radius: 10px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.btn-finish:hover {
+    filter: brightness(1.1);
+}
+
+.btn-close {
+    flex: 1;
+    background: transparent;
+    color: var(--texto-apoio);
+    border: 1px solid var(--borda);
+    padding: 14px 10px;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.btn-close:hover {
+    background: var(--borda);
+    color: #ffffff;
+}
+
+.total-container {
     display: flex;
     justify-content: space-between;
-    padding: 10px 0;
-    border-bottom: 1px solid #333;
+    margin-top: 15px;
+    font-size: 1.2rem;
 }
 
+/* =========================
+   9. ANIMAÇÕES
+========================= */
 @keyframes subir {
-    from { transform: translateY(100px); opacity: 0; }
-    to { transform: translateY(0); opacity: 1; }
+    from {
+        transform: translateY(100px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
 }
 
-#btn-finalizar {
-    background: none;
+@keyframes subirEntrada {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* =========================
+   10. RESPONSIVO
+========================= */
+@media (max-width: 320px) {
+    .info-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* ===== AJUSTES VISUAIS RESTAURADOS ===== */
+
+/* Botão remover ( - ) */
+.cart-item button {
+    background: var(--primaria);
+    color: #ffffff;
     border: none;
-    color: white;
-    font-weight: 800;
-    font-size: 1.1rem;
+    padding: 5px 10px;
+    border-radius: 5px;
     cursor: pointer;
-    display: flex;
-    align-items: center;
-    gap: 10px;
 }
 
-.badge-itens {
-    background: rgba(0,0,0,0.2);
-    padding: 2px 8px;
-    border-radius: 5px;
-    margin-right: 5px;
+/* Aviso */
+.aviso-entrega {
+    background: rgba(255, 193, 7, 0.1);
+    border: 1px dashed var(--secundaria);
+    padding: 10px;
+    border-radius: 8px;
+    margin-top: 15px;
+    text-align: center;
+}
+
+.aviso-entrega strong {
+    color: var(--secundaria);
+}
+
+/* Total destaque */
+#total-modal {
+    color: var(--secundaria);
+    font-weight: 800;
 }
