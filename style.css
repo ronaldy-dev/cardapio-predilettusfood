@@ -116,7 +116,7 @@ header h1 {
 }
 
 .info-circle {
-    background: var(--texto-principal);
+    background: var(--fundo);
     color: var(--primaria);
     width: 45px;
     height: 45px;
