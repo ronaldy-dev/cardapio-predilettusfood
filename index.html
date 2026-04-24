@@ -3,10 +3,39 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Cardápio digital da Predilettu's Food. Hambúrgueres artesanais, pizzas, açaí e bebidas. Peça pelo WhatsApp com entrega ou retirada.">
+    <meta name="theme-color" content="#0a0a0a">
+
+    <!-- Open Graph / Social -->
+    <meta property="og:title" content="Predilettu's Food — Cardápio Digital">
+    <meta property="og:description" content="Hambúrgueres artesanais, pizzas e açaí. Faça seu pedido pelo WhatsApp!">
+    <meta property="og:image" content="img/banner-1.jpg">
+    <meta property="og:type" content="website">
+    <meta name="twitter:card" content="summary_large_image">
+
     <title>Predilettu's Food - Catálogo Digital</title>
 
-    <!-- Ícones -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <!-- Favicon -->
+    <link rel="icon" type="image/jpeg" href="img/logo-chefe.jpg">
+    <link rel="apple-touch-icon" href="img/logo-chefe.jpg">
+
+    <!-- Preload do banner (LCP crítico) -->
+    <link rel="preload" as="image" href="img/banner-1.jpg">
+
+    <!-- Font Awesome — não bloqueante -->
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+    <link rel="preload"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+          as="style"
+          integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOtrVJQ=="
+          crossorigin="anonymous"
+          onload="this.rel='stylesheet'">
+    <noscript>
+        <link rel="stylesheet"
+              href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+              integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOtrVJQ=="
+              crossorigin="anonymous">
+    </noscript>
 
     <!-- CSS -->
     <link rel="stylesheet" href="style.css">
@@ -15,19 +44,24 @@
 
     <!-- HEADER -->
     <header>
-        <img src="img/logo-chefe.jpg" alt="Logo da Predilettu's Food" class="logo">
+        <!-- alt vazio: o <h1> já nomeia a marca (BUG-HTML-16) -->
+        <img src="img/logo-chefe.jpg" alt="" role="presentation" class="logo" width="90" height="90">
         <h1>Predilettu's Food</h1>
+        <!-- Número clicável no celular (BUG-HTML-17) -->
         <p class="zap-header">
-            <i class="fab fa-whatsapp"></i> (68) 99205-5322
+            <a href="https://wa.me/5568992055322" target="_blank" rel="noopener noreferrer"
+               aria-label="Entrar em contato via WhatsApp">
+                <i class="fab fa-whatsapp" aria-hidden="true"></i> (68) 99205-5322
+            </a>
         </p>
     </header>
 
     <!-- INFORMAÇÕES -->
-    <section class="info-container">
+    <section class="info-container" aria-label="Informações do estabelecimento">
         <div class="info-grid">
 
             <div class="info-item">
-                <div class="info-circle"><i class="fas fa-motorcycle"></i></div>
+                <div class="info-circle"><i class="fas fa-motorcycle" aria-hidden="true"></i></div>
                 <div class="info-text">
                     <strong>Entrega</strong>
                     <span>Taxa fixa R$ 4,00</span>
@@ -35,7 +69,7 @@
             </div>
 
             <div class="info-item">
-                <div class="info-circle"><i class="fas fa-credit-card"></i></div>
+                <div class="info-circle"><i class="fas fa-credit-card" aria-hidden="true"></i></div>
                 <div class="info-text">
                     <strong>Pagamento</strong>
                     <span>Pix, Cartões e dinheiro</span>
@@ -43,7 +77,7 @@
             </div>
 
             <div class="info-item">
-                <div class="info-circle"><i class="fas fa-clock"></i></div>
+                <div class="info-circle"><i class="fas fa-clock" aria-hidden="true"></i></div>
                 <div class="info-text">
                     <strong>Horário</strong>
                     <span>18h às 22h</span>
@@ -51,7 +85,7 @@
             </div>
 
             <div class="info-item">
-                <div class="info-circle"><i class="fas fa-map-marker-alt"></i></div>
+                <div class="info-circle"><i class="fas fa-map-marker-alt" aria-hidden="true"></i></div>
                 <div class="info-text">
                     <strong>Localização</strong>
                     <span>Rodrigues Alves</span>
@@ -62,46 +96,64 @@
     </section>
 
     <!-- CATEGORIAS -->
-    <nav class="categorias">
-        <button class="active" data-categoria="todos">Tudo</button>
-        <button data-categoria="hamburguer">Hambúrgueres</button>
-        <button data-categoria="pizza">Pizzas</button>
-        <button data-categoria="sorvete">Açaí/Sorvetes</button>
-        <button data-categoria="bebidas">Bebidas</button>
+    <nav class="categorias" aria-label="Filtro de categorias">
+        <button class="active" data-categoria="todos" aria-pressed="true">Tudo</button>
+        <button data-categoria="hamburguer" aria-pressed="false">Hambúrgueres</button>
+        <button data-categoria="pizza" aria-pressed="false">Pizzas</button>
+        <button data-categoria="sorvete" aria-pressed="false">Açaí/Sorvetes</button>
+        <button data-categoria="bebidas" aria-pressed="false">Bebidas</button>
     </nav>
 
     <!-- PRODUTOS -->
     <main id="lista-produtos">
-        <!-- Renderizado via JS -->
+        <noscript>
+            <p style="text-align:center;padding:2rem;color:#b3b3b3;">
+                Por favor, habilite o JavaScript para visualizar o cardápio.
+            </p>
+        </noscript>
     </main>
 
-    <!-- CARRINHO FLUTUANTE -->
-    <div id="carrinho-flutuante" style="display: none;">
+    <!-- CARRINHO FLUTUANTE — agora é <button> (BUG-HTML-09) -->
+    <button id="carrinho-flutuante" style="display: none;" type="button" aria-label="Ver carrinho">
         <div id="resumo-carrinho">
             <span class="badge-itens" id="itens-carrinho">0</span>
             <span id="total-carrinho">R$ 0,00</span>
         </div>
-
-        <button id="btn-finalizar">
-            Ver Pedido <i class="fa fa-shopping-basket"></i>
-        </button>
-    </div>
+        <span id="btn-finalizar">
+            Ver Pedido <i class="fa fa-shopping-basket" aria-hidden="true"></i>
+        </span>
+    </button>
 
     <!-- MODAL -->
-    <div id="modal-carrinho" class="modal">
+    <div id="modal-carrinho" class="modal"
+         role="dialog"
+         aria-modal="true"
+         aria-labelledby="modal-titulo">
         <div class="modal-content">
 
-            <h2>Seus Pedidos</h2>
+            <h2 id="modal-titulo">Seus Pedidos</h2>
 
-            <!-- LISTA DE ITENS (CORRIGIDO ID DUPLICADO) -->
+            <!-- LISTA DE ITENS -->
             <div id="lista-resumo"></div>
 
-            <!-- AVISO -->
-            <div class="aviso-entrega">
-                <p>
-                    <i class="fas fa-info-circle"></i> 
-                    <strong>Aviso:</strong> Se o pedido for para entrega, será adicionada uma taxa de <strong>R$ 4,00</strong>.
-                </p>
+            <!-- MODO DE ENTREGA (BUG-UX-01 / BUG-H-2) -->
+            <div class="entrega-container">
+                <label for="modo-entrega" class="entrega-label">Tipo de pedido:</label>
+                <select id="modo-entrega" class="entrega-select">
+                    <option value="entrega">Entrega (+ R$ 4,00)</option>
+                    <option value="retirada">Retirada no local</option>
+                </select>
+            </div>
+
+            <!-- CAMPOS DE ENDEREÇO (BUG-UX-07) -->
+            <div id="campos-endereco" class="campos-endereco">
+                <input type="text" id="input-endereco" class="input-endereco"
+                       placeholder="Endereço completo (rua, número, bairro)"
+                       aria-label="Endereço para entrega"
+                       autocomplete="street-address">
+                <input type="text" id="input-referencia" class="input-endereco"
+                       placeholder="Ponto de referência (opcional)"
+                       aria-label="Ponto de referência">
             </div>
 
             <!-- TOTAL -->
@@ -112,14 +164,16 @@
 
             <!-- AÇÕES -->
             <div class="modal-actions">
-                <button class="btn-close" id="btn-continuar">Adicionar mais</button>
-                <button class="btn-finish" id="btn-whatsapp">Finalizar no WhatsApp</button>
+                <button class="btn-close" id="btn-continuar" type="button">Adicionar mais</button>
+                <button class="btn-finish" id="btn-whatsapp" type="button">
+                    <i class="fab fa-whatsapp" aria-hidden="true"></i> Finalizar no WhatsApp
+                </button>
             </div>
 
         </div>
     </div>
 
-    <!-- JS -->
-    <script src="script.js"></script>
+    <!-- JS — defer garante execução após o HTML (BUG-HTML-15) -->
+    <script src="script.js" defer></script>
 </body>
 </html>
