@@ -1,4 +1,20 @@
 // =========================
+// CONFIGURAÇÃO DO SUPABASE
+// =========================
+
+// REMOVI o "/rest/v1/" do final da URL
+const SUPABASE_URL = 'https://jsyzlodjzhwyisyevddp.supabase.co'; 
+const SUPABASE_KEY = 'sb_publishable_a45fbJE_qc3agfilblrUjQ_QuZIMVIw';
+
+// Inicialização segura
+const supabaseClient = window.supabase
+    ? window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY)
+    : null;
+
+if (!supabaseClient) {
+    console.warn('Supabase não carregou. Verifique se o script do CDN está no HTML.');
+}
+// =========================
 // CONFIG — única fonte de verdade
 // =========================
 const CONFIG = {
@@ -7,16 +23,16 @@ const CONFIG = {
 };
 
 // =========================
-// 1. BANCO DE DADOS
+// 1. BANCO DE DADOS (produtos)
 // =========================
 const produtos = [
     {
         id: 1,
-        nome: "X-Predilettus",
-        preco: 35.00,
-        descricao: "Pão brioche, blend 160g, cheddar, bacon e maionese artesanal.",
+        nome: "X-Altas Horas especial",
+        preco: 25.00,
+        descricao: "2 hambúrguer, 2 ovos, salsicha, frango, bacon, calabresa, queijo, presunto, tomate, alface, milho.",
         imagem: "img/burguer-1.png",
-        categoria: "hamburguer"
+        categoria: "x-tudo"
     },
     {
         id: 2,
@@ -121,7 +137,6 @@ function formatarPreco(valor) {
     return `R$ ${valor.toFixed(2).replace('.', ',')}`;
 }
 
-// Recalcula do zero — sem acúmulo float (BUG-JS-01)
 function calcularTotal() {
     return carrinho.reduce((acc, item) => acc + item.preco * item.quantidade, 0);
 }
@@ -133,7 +148,11 @@ function calcularTotalFinal() {
 }
 
 function salvarCarrinho() {
-    localStorage.setItem('predilettuCarrinho', JSON.stringify(carrinho));
+    try {
+        localStorage.setItem('predilettuCarrinho', JSON.stringify(carrinho));
+    } catch {
+        // localStorage indisponível (modo privado ou storage cheio) — ignora silenciosamente
+    }
 }
 
 function carregarCarrinho() {
@@ -145,13 +164,12 @@ function carregarCarrinho() {
     }
 }
 
-// Remove caracteres de formatação WhatsApp de nomes de produto
 function escaparWhatsApp(texto) {
     return texto.replace(/[*_~`]/g, '');
 }
 
 // =========================
-// 4. RENDER PRODUTOS — DOM API (sem innerHTML, sem XSS)
+// 4. RENDER PRODUTOS
 // =========================
 function renderizarProdutos() {
     const container = document.getElementById('lista-produtos');
@@ -165,7 +183,6 @@ function renderizarProdutos() {
         card.style.animationDelay = `${index * 0.1}s`;
         card.dataset.id = produto.id;
 
-        // Imagem com lazy loading
         const img = document.createElement('img');
         img.src = produto.imagem;
         img.alt = produto.nome;
@@ -206,7 +223,6 @@ function renderizarProdutos() {
 
         btnAdd.addEventListener('click', () => {
             alterarCarrinho(produto.id, produto.nome, produto.preco, 'adicionar');
-            // Feedback visual (BUG-UX-03)
             btnAdd.textContent = '✓';
             btnAdd.disabled = true;
             setTimeout(() => {
@@ -280,14 +296,12 @@ function abrirModal() {
     modal.style.display = 'flex';
     modalAberto = true;
     renderizarResumo();
-    // Foco entra no modal (acessibilidade)
     document.getElementById('btn-continuar').focus();
 }
 
 function fecharModal() {
     document.getElementById('modal-carrinho').style.display = 'none';
     modalAberto = false;
-    // Retorna foco ao botão do carrinho
     document.getElementById('carrinho-flutuante').focus();
 }
 
@@ -302,7 +316,6 @@ function renderizarResumo() {
 
     listaArea.innerHTML = '';
 
-    // Estado vazio — não fecha o modal (BUG-JS-04)
     if (carrinho.length === 0) {
         const vazio = document.createElement('p');
         vazio.className = 'cart-empty';
@@ -316,7 +329,6 @@ function renderizarResumo() {
         const div = document.createElement('div');
         div.className = 'cart-item';
 
-        // Info do item — sem innerHTML (BUG-JS-14)
         const infoDiv = document.createElement('div');
         infoDiv.className = 'cart-item-info';
 
@@ -333,7 +345,6 @@ function renderizarResumo() {
         infoDiv.appendChild(br);
         infoDiv.appendChild(small);
 
-        // Controles de quantidade com botão + (BUG-UX-02)
         const controles = document.createElement('div');
         controles.className = 'cart-item-controles';
 
@@ -372,20 +383,21 @@ function renderizarResumo() {
 }
 
 // =========================
-// 7. WHATSAPP
+// 7. WHATSAPP + SUPABASE
 // =========================
-function enviarPedidoWhatsApp() {
+async function enviarPedidoWhatsApp() {
     if (carrinho.length === 0) return;
 
     const enderecoEl = document.getElementById('input-endereco');
     const referenciaEl = document.getElementById('input-referencia');
     const modoEntregaEl = document.getElementById('modo-entrega');
+    const nomeClienteEl = document.getElementById('input-nome');
 
     const modoEntrega = modoEntregaEl ? modoEntregaEl.value : 'entrega';
     const endereco = enderecoEl ? enderecoEl.value.trim() : '';
     const referencia = referenciaEl ? referenciaEl.value.trim() : '';
+    const nomeCliente = nomeClienteEl ? nomeClienteEl.value.trim() : 'Cliente';
 
-    // Validar endereço apenas quando for entrega (BUG-UX-07)
     if (modoEntrega === 'entrega' && !endereco) {
         if (enderecoEl) {
             enderecoEl.focus();
@@ -395,21 +407,47 @@ function enviarPedidoWhatsApp() {
         return;
     }
 
-    let mensagem = "*NOVO PEDIDO - PREDILETTU'S*\n\n";
-
-    carrinho.forEach(item => {
-        const nomeSeguro = escaparWhatsApp(item.nome);
-        mensagem += `✅ *${item.quantidade}x* ${nomeSeguro} - ${formatarPreco(item.preco * item.quantidade)}\n`;
-    });
-
     const subtotal = calcularTotal();
     const taxa = modoEntrega === 'entrega' ? CONFIG.DELIVERY_FEE : 0;
     const totalFinal = subtotal + taxa;
 
+    // Salvar no Supabase — só tenta se o cliente foi inicializado
+    if (supabaseClient) {
+        try {
+            const itensString = carrinho.map(item => `${item.quantidade}x ${item.nome}`).join(', ');
+
+            const { error } = await supabaseClient
+                .from('pedidos')
+                .insert([{
+                    nome_cliente: nomeCliente || 'Cliente',
+                    endereco: modoEntrega === 'entrega' ? endereco : 'Retirada no local',
+                    metodo_entrega: modoEntrega,
+                    itens: itensString,
+                    total: totalFinal
+                }]);
+
+            if (error) throw error;
+            console.log('Pedido salvo no banco com sucesso!');
+        } catch (err) {
+            // Falha no banco não bloqueia o pedido via WhatsApp
+            console.error('Erro ao salvar no Supabase:', err.message);
+        }
+    }
+
+    // Montar mensagem WhatsApp
+    let mensagem = "*NOVO PEDIDO - ALTAS HORAS*\n\n";
+
+    if (nomeCliente) mensagem += `*Cliente:* ${nomeCliente}\n\n`;
+
+    carrinho.forEach(item => {
+        const nomeSeguro = escaparWhatsApp(item.nome);
+        mensagem += `✅ *${item.quantidade}x* ${nomeSeguro} — ${formatarPreco(item.preco * item.quantidade)}\n`;
+    });
+
     mensagem += `\n*Subtotal:* ${formatarPreco(subtotal)}`;
     if (taxa > 0) mensagem += `\n*Taxa de entrega:* ${formatarPreco(taxa)}`;
     mensagem += `\n*TOTAL:* ${formatarPreco(totalFinal)}`;
-    mensagem += `\n\n*Tipo:* ${modoEntrega === 'entrega' ? 'Entrega' : 'Retirada no local'}`;
+    mensagem += `\n\n*Tipo:* ${modoEntrega === 'entrega' ? '🛵 Entrega' : '🏃 Retirada no local'}`;
 
     if (modoEntrega === 'entrega') {
         mensagem += `\n*Endereço:* ${endereco}`;
@@ -418,17 +456,13 @@ function enviarPedidoWhatsApp() {
 
     const url = `https://wa.me/${CONFIG.WHATSAPP_NUMBER}?text=${encodeURIComponent(mensagem)}`;
 
-    // Guard de tamanho máximo
     if (url.length > 2000) {
         alert('Pedido muito extenso. Por favor, divida em dois pedidos ou entre em contato diretamente.');
         return;
     }
 
-    // noopener + fallback para pop-up bloqueado (BUG-JS-08, BUG-SEC-02)
-    const popup = window.open(url, '_blank', 'noopener,noreferrer');
-    if (!popup) {
-        alert('Seu navegador bloqueou o redirecionamento. Copie o link e acesse manualmente:\n' + url);
-    }
+    // Redireciona diretamente, sem risco de bloqueio
+ window.location.href = url;
 }
 
 // =========================
@@ -456,7 +490,6 @@ function configurarFiltros() {
 function filtrar(categoria) {
     const cards = document.querySelectorAll('.produto-card');
 
-    // Separar leitura de escrita — elimina os 12 reflows síncronos (BUG-JS-11)
     cards.forEach(card => {
         const visivel = categoria === 'todos' || card.classList.contains(categoria);
         card.classList.toggle('hidden', !visivel);
@@ -473,7 +506,7 @@ function filtrar(categoria) {
 }
 
 // =========================
-// 9. EVENTOS INICIAIS
+// 9. INICIALIZAÇÃO
 // =========================
 document.addEventListener('DOMContentLoaded', () => {
     carregarCarrinho();
@@ -484,12 +517,12 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('btn-continuar').addEventListener('click', fecharModal);
     document.getElementById('btn-whatsapp').addEventListener('click', enviarPedidoWhatsApp);
 
-    // Fechar modal clicando no fundo (BUG-UX-06)
+    // Fechar modal clicando no fundo
     document.getElementById('modal-carrinho').addEventListener('click', (e) => {
         if (e.target === e.currentTarget) fecharModal();
     });
 
-    // Fechar modal com Escape (BUG-HTML-08)
+    // Fechar modal com Escape
     document.addEventListener('keydown', (e) => {
         if (e.key === 'Escape' && modalAberto) fecharModal();
     });

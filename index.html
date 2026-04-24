@@ -98,7 +98,7 @@
     <!-- CATEGORIAS -->
     <nav class="categorias" aria-label="Filtro de categorias">
         <button class="active" data-categoria="todos" aria-pressed="true">Tudo</button>
-        <button data-categoria="hamburguer" aria-pressed="false">Hambúrgueres</button>
+        <button data-categoria="x-tudo" aria-pressed="false">X-tudo</button>
         <button data-categoria="pizza" aria-pressed="false">Pizzas</button>
         <button data-categoria="sorvete" aria-pressed="false">Açaí/Sorvetes</button>
         <button data-categoria="bebidas" aria-pressed="false">Bebidas</button>
@@ -146,15 +146,22 @@
             </div>
 
             <!-- CAMPOS DE ENDEREÇO (BUG-UX-07) -->
-            <div id="campos-endereco" class="campos-endereco">
-                <input type="text" id="input-endereco" class="input-endereco"
-                       placeholder="Endereço completo (rua, número, bairro)"
-                       aria-label="Endereço para entrega"
-                       autocomplete="street-address">
-                <input type="text" id="input-referencia" class="input-endereco"
-                       placeholder="Ponto de referência (opcional)"
-                       aria-label="Ponto de referência">
-            </div>
+           <div id="campos-cliente" class="campos-endereco">
+    <input type="text" id="input-nome" class="input-endereco"
+           placeholder="Seu nome completo"
+           aria-label="Seu nome"
+           required>
+           
+    <div id="campos-endereco" class="campos-endereco" style="display: block; width: 100%; padding: 0;">
+        <input type="text" id="input-endereco" class="input-endereco"
+               placeholder="Endereço completo (rua, número, bairro)"
+               aria-label="Endereço para entrega"
+               autocomplete="street-address">
+        <input type="text" id="input-referencia" class="input-endereco"
+               placeholder="Ponto de referência (opcional)"
+               aria-label="Ponto de referência">
+    </div>
+</div>
 
             <!-- TOTAL -->
             <div class="total-container">
@@ -173,6 +180,7 @@
         </div>
     </div>
 
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <!-- JS — defer garante execução após o HTML (BUG-HTML-15) -->
     <script src="script.js" defer></script>
 </body>
