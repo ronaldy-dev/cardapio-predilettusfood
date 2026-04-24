@@ -4,7 +4,7 @@
 :root {
     --fundo: #0a0a0a;
     --card: #161616;
-    --primaria: #ff007f;
+    --primaria: #ff6a00;
     --secundaria: #ffc107;
     --sucesso: #25d366;
     --texto-principal: #ffffff;
@@ -64,7 +64,7 @@ header {
     object-fit: cover;
     object-position: center top;
     border: 3px solid var(--primaria);
-    box-shadow: 0 0 20px rgba(255, 0, 127, 0.4);
+    box-shadow: 0 0 20px rgba(255, 106, 0, 0.4);
     margin-bottom: 10px;
 }
 
@@ -184,9 +184,9 @@ header h1 {
 
 .categorias button.active {
     background: var(--primaria);
-    color: var(--texto-principal);
+    color: var(--fundo);
     border-color: var(--primaria);
-    box-shadow: 0 0 15px rgba(255, 0, 127, 0.5);
+    box-shadow: 0 0 15px rgba(255, 106, 0, 0.5);
 }
 
 /* =========================
@@ -219,7 +219,7 @@ main {
 @media (hover: hover) {
     .produto-card:hover {
         transform: scale(1.02);
-        box-shadow: 0 5px 15px rgba(255, 0, 127, 0.2);
+        box-shadow: 0 5px 15px rgba(255, 106, 0, 0.4)
     }
 }
 
@@ -244,6 +244,7 @@ main {
 .produto-nome {
     font-size: 1.1rem;
     font-weight: 700;
+    color: var(--primaria);
 }
 
 .produto-desc {
@@ -270,7 +271,7 @@ main {
 /* Botão adicionar — touch target 44x44px (BUG-CSS-17, WCAG 2.5.5) */
 .btn-add {
     background: var(--primaria);
-    color: var(--texto-principal);
+    color: var(--fundo);
     border: none;
     width: 44px;
     height: 44px;
@@ -330,12 +331,12 @@ main {
 }
 
 #total-carrinho {
-    color: var(--texto-principal);
-    font-weight: 700;
+    color: var(--fundo);
+    font-weight: 800;
 }
 
 #btn-finalizar {
-    color: var(--texto-principal);
+    color: var(--fundo);
     font-weight: 800;
     font-size: 1.1rem;
     display: flex;
